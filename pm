@@ -1,6 +1,4 @@
-
 #!/usr/bin/env python3
-
 
 import sqlite3
 
@@ -14,7 +12,8 @@ import password
 
 def sql_connection():
     try:
-        con = sqlite3.connect('.passwords.db',isolation_level=None) #autocommit
+        con = sqlite3.connect("/Users/adamromayor/Projects/Passwords/.passwords.db", isolation_level=None)
+        #con = sqlite3.connect('.passwords.db',isolation_level=None) #autocommit
         print("Connection is established")
         return con
 
@@ -135,7 +134,7 @@ def add_login(cursorObj, user, website):
         while True:
             choice = input("Generate random password (y/n)? ").lower()
             if(choice == "y"):
-                pw = password.generate_pass(16)
+                pw = password.generate_pass(17)
                 print(f"Password: {pw}")
                 break
             elif(choice == "n"):
@@ -194,7 +193,7 @@ def update_pass_website(cursorObj, user, website):
         while True:
             choice = input("Generate random password (y/n)? ").lower()
             if(choice == "y"):
-                pw = password.generate_pass(16)
+                pw = password.generate_pass(17)
                 print(f"Password: {pw}")
                 break
             elif(choice == "n"):

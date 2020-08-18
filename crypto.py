@@ -1,8 +1,8 @@
 import cryptography
 from cryptography.fernet import Fernet
 
-
-keyfile = ".secret.key"
+keyfile = "/Users/adamromayor/Projects/Passwords/.secret.key"
+#keyfile = ".secret.key"
 
 def generate_key():
     """
