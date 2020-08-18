@@ -155,6 +155,30 @@ def add_login(cursorObj, user, website):
 
 
 
+# deletes login credentials of given website
+def delete_login(cursorObj, user, website):
+    sql = "SELECT * FROM passwords WHERE username = ? AND website = ?"
+    cursorObj.execute(sql,(user, website))
+
+    data = cursorObj.fetchall()
+
+    if(len(data) == 0):
+        print(f"\n *** Login information for {website} does not exist ***\n")
+    else:
+        while True:
+            choice = input(f"Are you sure you want to delete login info for {website} (y/n)? ").lower()
+
+            if(choice == "y"):
+                sql = "DELETE FROM passwords WHERE username = ? AND website = ?"
+                cursorObj.execute(sql, (user, website))
+                print(f"Login info for {website} successfully deleted")
+                return
+            elif (choice == "n"):
+                print(f"Did not delete login info for {website}")
+                return
+
+
+
 # only update password for the website, not the username
 def update_pass_website(cursorObj, user, website):
     sql = "SELECT * FROM passwords WHERE username = ? AND website = ?"
@@ -192,7 +216,7 @@ def update_pass_website(cursorObj, user, website):
 
 # list all websites saved in password manager
 def list_websites(cursorObj, user):
-    sql = "SELECT website FROM passwords WHERE username = ?"
+    sql = "SELECT website FROM passwords WHERE username = ? ORDER BY website"
 
     cursorObj.execute(sql, (user,))
 
@@ -205,7 +229,7 @@ def list_websites(cursorObj, user):
 # list all login information
 # not recommended because it lists passwords
 def all_logins(cursorObj, user):
-    sql = "SELECT website FROM passwords WHERE username = ?"
+    sql = "SELECT website FROM passwords WHERE username = ? ORDER BY website"
 
     cursorObj.execute(sql, (user,))
 
@@ -236,19 +260,20 @@ def main():
     while True:
         print("\n##################################\n")
         print("What would you like to do?")
-        print("\t(A) Add new user")
+        print("\t(N) Add new user")
         print("\t(C) Change password of current user")
         print("\t(V) View login info of website")
-        print("\t(W) Add login info for website")
+        print("\t(A) Add login info for website")
         print("\t(U) Update password for website")
         print("\t(L) List all saved websites")
         print("\t(D) List login info for all websites (not recommended)")
+        print("\t(X) Delete login info for website")
         print("\t(E) Exit")
         
 
         option = input("Choice: ").lower()
 
-        if (option == 'a'):
+        if (option == 'n'):
             print('Adding user')
             add_user(cursorObj)
         elif (option == 'c'):
@@ -257,7 +282,7 @@ def main():
         elif (option == 'v'):
             web = input("\nWhich website? \nWebsite: ").lower()
             view_login(cursorObj, user, web)
-        elif (option == 'w'):
+        elif (option == 'a'):
             web = input("\nWhich website? \nWebsite: ").lower()
             add_login(cursorObj, user, web)
         elif(option == 'l'):
@@ -268,14 +293,14 @@ def main():
         elif(option =='u'):
             web = input("\nWhich website? \nWebsite: ").lower()
             update_pass_website(cursorObj,user, web)
+        elif(option =='x'):
+            web = input("\nWhich website? \nWebsite: ").lower()
+            delete_login(cursorObj,user, web)
         elif (option == 'e'):
             print("\nGoodbye!")
             return 0
+        
     
-    
-
-
-
 
 if __name__ == "__main__":
     main()
