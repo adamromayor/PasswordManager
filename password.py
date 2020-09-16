@@ -1,6 +1,6 @@
 import random
 
-
+# Generates random password of length pass_length
 def generate_pass(pass_length):
     lower = "abcdefghijklmnopqrstuvwxyz"
     upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"

@@ -1,22 +1,18 @@
 #!/usr/bin/env python3
 
 import sqlite3
-
 from sqlite3 import Error
-
 import crypto
 from getpass import getpass
-
 import password
 
 
+# access database 
 def sql_connection():
     try:
         con = sqlite3.connect("/Users/adamromayor/Projects/Passwords/.passwords.db", isolation_level=None)
-        #con = sqlite3.connect('.passwords.db',isolation_level=None) #autocommit
         print("Connection is established")
         return con
-
     except Error:
         print(Error)
 
@@ -216,11 +212,8 @@ def update_pass_website(cursorObj, user, website):
 # list all websites saved in password manager
 def list_websites(cursorObj, user):
     sql = "SELECT website FROM passwords WHERE username = ? ORDER BY website"
-
     cursorObj.execute(sql, (user,))
-
     data = cursorObj.fetchall()
-
     for d in data:
         print(f"\t> {d[0]}")
 
@@ -229,11 +222,8 @@ def list_websites(cursorObj, user):
 # not recommended because it lists passwords
 def all_logins(cursorObj, user):
     sql = "SELECT website FROM passwords WHERE username = ? ORDER BY website"
-
     cursorObj.execute(sql, (user,))
-
     data = cursorObj.fetchall()
-
     for d in data:
         view_login(cursorObj, user, d[0])
 
